@@ -47,7 +47,8 @@ class Game extends React.Component {
         squares: Array(9).fill(null)
       }],
       xIsNext: true,
-      stepNumber: 0
+      stepNumber: 0,
+      order: "Asc"
     }
   }
 
@@ -75,16 +76,25 @@ class Game extends React.Component {
       xIsNext: (step % 2) === 0
     })
   }
+
+  orderChange(){
+    this.setState({
+      order: this.state.order === "Asc"? "Desc" : "Asc",
+
+    })
+
+  }
+
   render() {
     const history = this.state.history;
     const current = history[this.state.stepNumber];
     const winner = calculateWinner(current.squares);
 
     const moves = history.map((step, move) => {
-      const desc = move? 'Move #' + move: 'Game Start';
+      const description = move? 'Move #' + move: 'Game Start';
       return (
         <li key={move} style={move === this.state.stepNumber? {fontWeight: 600}: null}>
-          <a href="#" onClick={() => this.jumpTo(move)}> {desc} </a>
+          <a href="#" onClick={() => this.jumpTo(move)}> {description} </a>
         </li>
       );
     })
@@ -106,7 +116,9 @@ class Game extends React.Component {
         </div>
         <div className="game-info">
           <div>{status}</div>
-          <ol>{moves}</ol>
+          <ol>{this.state.order === "Asc"? moves : moves.reverse()}</ol>
+          <input type="radio" name="gender" value={this.state.order} checked={this.state.order === "Asc"} onChange={() => this.orderChange()} /> Asc<br />
+          <input type="radio" name="gender" value={this.state.order} checked={this.state.order === "Desc"} onChange={() => this.orderChange()} /> Desc<br />
         </div>
       </div>
     );
