@@ -22,25 +22,18 @@ class Board extends React.Component {
   }
 
   render() {
+    const board = [];
+    for(let i = 0; i < 3; i++){
+      const squareRows = [];
+      for(let j = 0; j < 3; j++){
+        squareRows.push(this.renderSquare((i*3) + j));
+      }
+      board.push(<div className="board-row">{squareRows}</div>)
+    }
 
     return (
       <div>
-
-        <div className="board-row">
-          {this.renderSquare(0)}
-          {this.renderSquare(1)}
-          {this.renderSquare(2)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(3)}
-          {this.renderSquare(4)}
-          {this.renderSquare(5)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(6)}
-          {this.renderSquare(7)}
-          {this.renderSquare(8)}
-        </div>
+        {board}
       </div>
     );
   }
@@ -90,7 +83,7 @@ class Game extends React.Component {
     const moves = history.map((step, move) => {
       const desc = move? 'Move #' + move: 'Game Start';
       return (
-        <li key={move} style={move == this.state.stepNumber? {fontWeight: 600}: null}>
+        <li key={move} style={move === this.state.stepNumber? {fontWeight: 600}: null}>
           <a href="#" onClick={() => this.jumpTo(move)}> {desc} </a>
         </li>
       );
